@@ -1,0 +1,468 @@
+/* =====================================================================
+   video-room.css
+   Shared by TeacherVideoRoom + StudentVideoRoom
+   Matches teacher/student dashboard design system
+   ===================================================================== */
+
+/* ══════════════════════════════════════════════════════
+   SHARED — used by both components
+══════════════════════════════════════════════════════ */
+
+.vr-live-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 9px; border-radius: 999px;
+  font-size: 10px; font-weight: 800; letter-spacing: 0.08em;
+  background: rgba(34,197,94,0.12); color: #4ade80;
+  border: 1px solid rgba(34,197,94,0.25); flex-shrink: 0;
+}
+:root[data-theme="light"] .vr-live-pill { color: #16a34a; }
+
+.vr-live-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #22c55e; animation: vrPulse 2s ease-in-out infinite;
+}
+
+.vr-leave-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border-radius: 9px;
+  font-size: 12px; font-weight: 600; font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  background: rgba(248,113,113,0.12); border: 1px solid rgba(248,113,113,0.25);
+  color: #f87171; transition: all 0.2s;
+}
+.vr-leave-btn:hover { background: rgba(248,113,113,0.22); }
+:root[data-theme="light"] .vr-leave-btn { color: #dc2626; }
+
+.vr-close-btn {
+  width: 30px; height: 30px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  background: transparent; border: 1px solid var(--sd-border);
+  color: var(--sd-text2); cursor: pointer; font-size: 13px;
+  transition: all 0.2s; flex-shrink: 0;
+}
+.vr-close-btn:hover { background: var(--sd-surface2); color: var(--sd-text); }
+
+.vr-spinner {
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff;
+  animation: vrSpin 0.7s linear infinite; flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════════════════════
+   TEACHER VIDEO ROOM  (.vr-*)
+══════════════════════════════════════════════════════ */
+
+.vr-root {
+  display: flex; flex-direction: column; gap: 16px;
+  font-family: 'DM Sans', sans-serif; color: var(--sd-text);
+}
+
+.vr-page-header {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; flex-wrap: wrap; gap: 10px;
+}
+.vr-title { font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 700; margin: 0; }
+.vr-sub   { font-size: 13px; color: var(--sd-text3); margin: 4px 0 0; }
+
+.vr-layout {
+  display: grid; grid-template-columns: 340px 1fr;
+  gap: 16px; align-items: start;
+}
+.vr-left { display: flex; flex-direction: column; gap: 14px; }
+
+.vr-card {
+  background: var(--sd-surface); border: 1px solid var(--sd-border);
+  border-radius: var(--sd-radius); overflow: hidden;
+  transition: background 0.35s, border-color 0.35s;
+}
+.vr-empty-card { min-height: 240px; }
+
+.vr-card-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 13px 16px; border-bottom: 1px solid var(--sd-border);
+  background: var(--sd-surface2);
+}
+.vr-card-header h3 {
+  font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 600; margin: 0; flex: 1;
+}
+.vr-card-icon { color: var(--td-accent2, #38bdf8); font-size: 13px; flex-shrink: 0; }
+:root[data-theme="light"] .vr-card-icon { color: var(--td-accent, #0284c7); }
+
+.vr-badge {
+  font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px;
+  background: rgba(34,197,94,0.12); color: #4ade80; border: 1px solid rgba(34,197,94,0.25);
+}
+:root[data-theme="light"] .vr-badge { color: #16a34a; }
+
+.vr-create-form { display: flex; flex-direction: column; gap: 10px; padding: 14px 16px; }
+
+.vr-input {
+  background: var(--sd-bg); border: 1px solid var(--sd-border); border-radius: 9px;
+  padding: 9px 13px; color: var(--sd-text); font-family: 'DM Sans', sans-serif;
+  font-size: 13px; outline: none; transition: all 0.2s;
+}
+.vr-input:focus { border-color: var(--sd-border2); box-shadow: 0 0 0 3px var(--sd-accent-glow); }
+.vr-input::placeholder { color: var(--sd-text3); }
+
+.vr-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 9px 16px; border-radius: 9px; font-size: 13px; font-weight: 600;
+  font-family: 'DM Sans', sans-serif; cursor: pointer; border: none;
+  transition: all 0.2s; white-space: nowrap;
+}
+.vr-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.vr-btn--primary {
+  background: linear-gradient(135deg, var(--td-accent, #0ea5e9), #6366f1);
+  color: #fff; box-shadow: 0 3px 12px rgba(14,165,233,0.25);
+}
+.vr-btn--primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 5px 16px rgba(14,165,233,0.35); }
+.vr-btn--ghost {
+  background: var(--sd-surface2); border: 1px solid var(--sd-border); color: var(--sd-text2);
+}
+.vr-btn--ghost:hover { border-color: var(--sd-border2); color: var(--sd-text); }
+
+.vr-icon-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 600;
+  font-family: 'DM Sans', sans-serif; cursor: pointer; border: 1px solid; transition: all 0.2s;
+}
+.vr-icon-btn--blue  { background: rgba(14,165,233,0.10); border-color: rgba(14,165,233,0.25); color: var(--td-accent2, #38bdf8); }
+.vr-icon-btn--blue:hover { background: rgba(14,165,233,0.20); }
+.vr-icon-btn--gray  { background: var(--sd-surface2); border-color: var(--sd-border); color: var(--sd-text2); }
+.vr-icon-btn--gray:hover { border-color: var(--sd-border2); color: var(--sd-text); }
+.vr-icon-btn--red   { background: rgba(248,113,113,0.10); border-color: rgba(248,113,113,0.25); color: #f87171; }
+.vr-icon-btn--red:hover { background: rgba(248,113,113,0.20); }
+:root[data-theme="light"] .vr-icon-btn--blue { color: var(--td-accent, #0284c7); }
+:root[data-theme="light"] .vr-icon-btn--red  { color: #dc2626; }
+
+.vr-room-list { display: flex; flex-direction: column; gap: 0; }
+.vr-room-item {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 12px 16px; border-bottom: 1px solid var(--sd-border); transition: background 0.15s;
+}
+.vr-room-item:last-child { border-bottom: none; }
+.vr-room-item:hover { background: var(--sd-surface2); }
+.vr-room-item--active { background: rgba(14,165,233,0.06); border-left: 3px solid var(--td-accent, #0ea5e9); }
+.vr-room-item--ended  { opacity: 0.5; }
+
+.vr-room-info    { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
+.vr-room-title-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.vr-room-name    { font-weight: 600; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.vr-room-meta    { font-size: 11px; color: var(--sd-text3); }
+.vr-room-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+.vr-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--sd-text3); flex-shrink: 0; }
+.vr-dot--live { background: #22c55e; box-shadow: 0 0 6px rgba(34,197,94,0.5); animation: vrPulse 2s ease-in-out infinite; }
+
+.vr-status-badge { font-size: 9px; font-weight: 800; letter-spacing: 0.08em; padding: 2px 6px; border-radius: 999px; flex-shrink: 0; }
+.vr-status-badge--live  { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+.vr-status-badge--ended { background: rgba(148,163,184,0.12); color: var(--sd-text3); border: 1px solid var(--sd-border); }
+:root[data-theme="light"] .vr-status-badge--live { color: #16a34a; }
+
+.vr-right { display: flex; flex-direction: column; gap: 0; min-height: 500px; }
+
+.vr-iframe-card {
+  background: var(--sd-surface); border: 1px solid var(--sd-border);
+  border-radius: var(--sd-radius); overflow: hidden;
+  display: flex; flex-direction: column; flex: 1;
+}
+.vr-iframe-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; border-bottom: 1px solid var(--sd-border);
+  background: var(--sd-surface2); flex-wrap: wrap;
+}
+.vr-iframe-title {
+  flex: 1; font-size: 13px; font-weight: 600;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.vr-iframe { width: 100%; border: none; flex: 1; min-height: 460px; }
+
+.vr-placeholder {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 400px; gap: 8px; text-align: center; position: relative; padding: 24px;
+}
+.vr-placeholder-glow {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 280px; height: 280px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(14,165,233,0.06), transparent 70%);
+  pointer-events: none;
+}
+.vr-placeholder-icon { font-size: 36px; color: var(--sd-text3); position: relative; }
+.vr-placeholder p    { font-size: 15px; font-weight: 600; color: var(--sd-text2); margin: 0; position: relative; }
+.vr-placeholder span { font-size: 13px; color: var(--sd-text3); max-width: 260px; position: relative; }
+
+.vr-skeleton-list { display: flex; flex-direction: column; gap: 0; }
+.vr-skeleton-row  { padding: 12px 16px; border-bottom: 1px solid var(--sd-border); }
+.vr-skeleton-row:last-child { border-bottom: none; }
+.vr-skeleton {
+  height: 40px; border-radius: 8px;
+  background: linear-gradient(90deg,
+    var(--sd-skel-a, rgba(255,255,255,0.06)) 25%,
+    var(--sd-skel-b, rgba(255,255,255,0.12)) 37%,
+    var(--sd-skel-a, rgba(255,255,255,0.06)) 63%
+  );
+  background-size: 400% 100%; animation: vrShimmer 1.4s ease infinite;
+}
+
+/* ══════════════════════════════════════════════════════
+   STUDENT VIDEO ROOM  (.svr-*)
+   Renders INLINE inside sd-main — never overlaps dashboard
+══════════════════════════════════════════════════════ */
+
+/* Root — stacks inside the normal content flow */
+.svr-root {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--sd-text);
+  /* NO position:fixed, NO z-index, NO overflow:hidden on body */
+}
+
+/* Header */
+.svr-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: var(--sd-surface);
+  border: 1px solid var(--sd-border);
+  border-radius: var(--sd-radius, 14px);
+  padding: 14px 18px;
+  transition: background 0.35s, border-color 0.35s;
+}
+.svr-header-left  { display: flex; align-items: center; gap: 12px; }
+.svr-header-right { display: flex; align-items: center; gap: 8px; }
+
+.svr-header-icon {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: #fff; flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(59,130,246,0.22);
+}
+.svr-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 15px; font-weight: 700; margin: 0; color: var(--sd-text);
+}
+.svr-sub { font-size: 12px; color: var(--sd-text3); margin: 2px 0 0; }
+
+/* Countdown */
+.svr-countdown-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 500;
+  color: var(--sd-text3); background: var(--sd-surface2);
+  border: 1px solid var(--sd-border); transition: all 0.35s;
+}
+
+/* Refresh */
+.svr-refresh-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600;
+  font-family: 'DM Sans', sans-serif; cursor: pointer;
+  border: 1px solid var(--sd-border);
+  background: var(--sd-surface2); color: var(--sd-text2);
+  transition: all 0.2s;
+}
+.svr-refresh-btn:hover:not(:disabled) {
+  border-color: var(--sd-border2); color: var(--sd-text);
+}
+.svr-refresh-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.svr-spin { animation: vrSpin 0.8s linear infinite; }
+
+/* Grid */
+.svr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+/* Skeleton cards */
+.svr-skeleton-card {
+  background: var(--sd-surface); border: 1px solid var(--sd-border);
+  border-radius: var(--sd-radius, 14px); padding: 16px;
+  display: flex; flex-direction: column; gap: 9px; min-height: 160px;
+}
+.svr-sk {
+  border-radius: 6px;
+  background: linear-gradient(90deg,
+    var(--sd-skel-a, rgba(255,255,255,0.06)) 25%,
+    var(--sd-skel-b, rgba(255,255,255,0.12)) 37%,
+    var(--sd-skel-a, rgba(255,255,255,0.06)) 63%
+  );
+  background-size: 400% 100%;
+  animation: vrShimmer 1.4s ease infinite;
+}
+.svr-sk--pill  { height: 18px; width: 55px; border-radius: 999px; }
+.svr-sk--title { height: 16px; width: 80%; }
+.svr-sk--sub   { height: 12px; width: 60%; }
+.svr-sk--btn   { height: 34px; width: 100%; margin-top: auto; border-radius: 8px; }
+
+/* Empty state — a simple card that fits naturally */
+.svr-empty {
+  background: var(--sd-surface);
+  border: 1px solid var(--sd-border);
+  border-radius: var(--sd-radius, 14px);
+  padding: 48px 24px;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 10px; text-align: center; position: relative; overflow: hidden;
+  transition: background 0.35s, border-color 0.35s;
+}
+.svr-empty-glow {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 260px; height: 260px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(59,130,246,0.05), transparent 70%);
+  pointer-events: none;
+}
+.svr-empty-icon-wrap {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: var(--sd-surface2); border: 1px solid var(--sd-border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; color: var(--sd-text3); position: relative;
+}
+.svr-empty-title {
+  font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 700;
+  color: var(--sd-text); margin: 0; position: relative;
+}
+.svr-empty-body {
+  font-size: 13px; color: var(--sd-text2); max-width: 300px;
+  line-height: 1.65; margin: 0; position: relative;
+}
+.svr-empty-body strong { color: var(--sd-text); }
+
+.svr-empty-pulse-row { display: flex; gap: 6px; margin-top: 2px; position: relative; }
+.svr-pulse-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--sd-accent, #3b82f6); opacity: 0.4;
+  animation: svrPulse 1.4s ease-in-out infinite;
+}
+
+/* Room cards */
+.svr-room-card {
+  background: var(--sd-surface); border: 1px solid var(--sd-border);
+  border-radius: var(--sd-radius, 14px); padding: 16px;
+  display: flex; flex-direction: column; gap: 9px;
+  position: relative; overflow: hidden; transition: all 0.22s;
+}
+.svr-room-card:hover {
+  border-color: var(--sd-border2); transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(59,130,246,0.10);
+}
+.svr-card-stripe {
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, #3b82f6, #a78bfa);
+}
+.svr-card-top { display: flex; align-items: center; justify-content: space-between; }
+
+/* Student LIVE pill */
+.svr-live-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 9px; border-radius: 999px;
+  font-size: 9px; font-weight: 800; letter-spacing: 0.08em;
+  background: rgba(34,197,94,0.10); color: #4ade80;
+  border: 1px solid rgba(34,197,94,0.22);
+}
+:root[data-theme="light"] .svr-live-pill { color: #16a34a; }
+
+.svr-live-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: #22c55e; animation: svrGlow 2s ease-in-out infinite;
+}
+
+.svr-users-icon { font-size: 13px; color: var(--sd-text3); }
+
+.svr-room-title {
+  font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 700;
+  margin: 0; color: var(--sd-text); line-height: 1.35;
+}
+.svr-room-meta-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.svr-room-teacher,
+.svr-room-time {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; color: var(--sd-text2);
+}
+
+/* Join button */
+.svr-join-btn {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 9px; border-radius: 9px;
+  font-size: 13px; font-weight: 700; font-family: 'DM Sans', sans-serif;
+  cursor: pointer; border: none; margin-top: 2px;
+  background: linear-gradient(135deg, #2563eb, #4f46e5); color: #fff;
+  box-shadow: 0 3px 12px rgba(59,130,246,0.25); transition: all 0.2s;
+}
+.svr-join-btn:hover {
+  background: linear-gradient(135deg, #1d4ed8, #4338ca);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 16px rgba(59,130,246,0.35);
+}
+
+/* Active call — sized relative to its parent, not the viewport */
+.svr-call-wrapper {
+  display: flex; flex-direction: column;
+  border-radius: var(--sd-radius, 14px); overflow: hidden;
+  border: 1px solid var(--sd-border);
+  background: var(--sd-surface);
+  /* height is determined by svr-iframe-wrap below */
+}
+.svr-call-bar {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; background: var(--sd-surface2);
+  border-bottom: 1px solid var(--sd-border); flex-wrap: wrap;
+}
+.svr-call-info {
+  flex: 1; display: flex; align-items: center; gap: 10px;
+  flex-wrap: wrap; min-width: 0;
+}
+.svr-call-title {
+  font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700;
+  color: var(--sd-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.svr-call-teacher {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; color: var(--sd-text3);
+}
+.svr-leave-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600;
+  font-family: 'DM Sans', sans-serif; cursor: pointer;
+  background: rgba(248,113,113,0.10); border: 1px solid rgba(248,113,113,0.22);
+  color: #f87171; transition: all 0.2s; flex-shrink: 0;
+}
+.svr-leave-btn:hover { background: rgba(248,113,113,0.20); }
+:root[data-theme="light"] .svr-leave-btn { color: #dc2626; }
+
+/* iframe — uses padding-top trick for 16:9 aspect ratio.
+   This means it grows/shrinks with the container width
+   and NEVER breaks out of sd-main. */
+.svr-iframe-wrap {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 */
+  background: #000;
+}
+.svr-iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ══════════════════════════════════════════════════════
+   ANIMATIONS (student-specific)
+══════════════════════════════════════════════════════ */
+@keyframes svrGlow  { 0%,100%{box-shadow:0 0 3px rgba(34,197,94,0.4)} 50%{box-shadow:0 0 8px rgba(34,197,94,0.8)} }
+@keyframes svrPulse { 0%,100%{opacity:0.25;transform:scale(0.85)} 50%{opacity:0.85;transform:scale(1.1)} }
+
+/* ══════════════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  .svr-header       { flex-direction: column; align-items: flex-start; }
+  .svr-header-right { width: 100%; justify-content: space-between; }
+  .svr-grid         { grid-template-columns: 1fr; }
+}

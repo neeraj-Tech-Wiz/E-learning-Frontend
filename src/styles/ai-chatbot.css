@@ -1,0 +1,335 @@
+/* =====================================================================
+   ai-chatbot.css — EduVerse AI Chatbot
+   Matches student-dashboard.css design tokens
+   ===================================================================== */
+
+/* ── Backdrop (mobile overlay) ── */
+.acb-backdrop {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(2px);
+  z-index: 200;
+}
+@media (max-width: 640px) { .acb-backdrop { display: block; } }
+
+/* ══════════════════════════════════════════════════════
+   PANEL — slides in from bottom-right
+══════════════════════════════════════════════════════ */
+.acb-panel {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 201;
+
+  width: 400px;
+  max-width: calc(100vw - 32px);
+  height: 580px;
+  max-height: calc(100vh - 96px);
+
+  display: flex;
+  flex-direction: column;
+
+  background: var(--sd-surface);
+  border: 1px solid var(--sd-border2);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.35);
+
+  animation: acbSlideUp 0.28s cubic-bezier(0.4, 0, 0.2, 1) both;
+  transition: background 0.35s, border-color 0.35s;
+}
+
+@keyframes acbSlideUp {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ══════════════════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════════════════ */
+.acb-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: var(--sd-surface2);
+  border-bottom: 1px solid var(--sd-border);
+  flex-shrink: 0;
+  transition: background 0.35s, border-color 0.35s;
+}
+
+.acb-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.acb-bot-avatar {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #6366f1, #a78bfa);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; color: #fff; flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(99,102,241,0.30);
+}
+
+.acb-bot-name {
+  font-family: 'Sora', sans-serif;
+  font-size: 13px; font-weight: 700;
+  color: var(--sd-text); display: block; line-height: 1.3;
+}
+
+.acb-bot-status {
+  font-size: 11px; color: var(--sd-text3);
+  display: flex; align-items: center; gap: 4px;
+}
+
+.acb-status-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #22c55e;
+  animation: acbPulse 2s ease-in-out infinite;
+}
+@keyframes acbPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
+  50%      { box-shadow: 0 0 0 4px rgba(34,197,94,0); }
+}
+
+.acb-header-actions { display: flex; gap: 6px; }
+
+.acb-icon-btn {
+  width: 30px; height: 30px;
+  border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  background: transparent; border: 1px solid var(--sd-border);
+  color: var(--sd-text3); cursor: pointer; font-size: 12px;
+  transition: all 0.2s;
+}
+.acb-icon-btn:hover { background: var(--sd-surface); color: var(--sd-text); border-color: var(--sd-border2); }
+
+/* ══════════════════════════════════════════════════════
+   MESSAGES
+══════════════════════════════════════════════════════ */
+.acb-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+.acb-messages::-webkit-scrollbar { width: 4px; }
+.acb-messages::-webkit-scrollbar-track { background: transparent; }
+.acb-messages::-webkit-scrollbar-thumb { background: var(--sd-border2); border-radius: 999px; }
+
+/* Message row */
+.acb-msg-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  animation: acbMsgIn 0.22s ease both;
+}
+.acb-msg-row--user { flex-direction: row-reverse; }
+
+@keyframes acbMsgIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Avatars */
+.acb-avatar {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; flex-shrink: 0;
+}
+.acb-avatar--bot {
+  background: linear-gradient(135deg, #6366f1, #a78bfa);
+  color: #fff;
+}
+.acb-avatar--user {
+  background: linear-gradient(135deg, #3b82f6, #60a5fa);
+  color: #fff;
+  font-family: 'Sora', sans-serif; font-weight: 700; font-size: 12px;
+}
+
+/* Bubbles */
+.acb-bubble {
+  max-width: 78%;
+  padding: 10px 13px;
+  border-radius: 14px;
+  font-size: 13px;
+  line-height: 1.65;
+  word-break: break-word;
+}
+
+.acb-bubble--bot {
+  background: var(--sd-surface2);
+  border: 1px solid var(--sd-border);
+  color: var(--sd-text);
+  border-bottom-left-radius: 4px;
+}
+
+.acb-bubble--user {
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+/* Typing indicator */
+.acb-bubble--typing {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 16px;
+  min-width: 52px;
+}
+
+.acb-typing-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--sd-text3);
+  animation: acbTyping 1.2s ease-in-out infinite;
+}
+.acb-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.acb-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes acbTyping {
+  0%,60%,100% { transform: translateY(0);  opacity: 0.4; }
+  30%          { transform: translateY(-5px); opacity: 1; }
+}
+
+/* Error */
+.acb-error {
+  font-size: 12px;
+  color: var(--sd-danger);
+  background: rgba(248,113,113,0.08);
+  border: 1px solid rgba(248,113,113,0.20);
+  border-radius: 8px;
+  padding: 8px 12px;
+  text-align: center;
+}
+:root[data-theme="light"] .acb-error { color: #dc2626; }
+
+/* ══════════════════════════════════════════════════════
+   INPUT AREA
+══════════════════════════════════════════════════════ */
+.acb-input-area {
+  padding: 12px 14px 10px;
+  border-top: 1px solid var(--sd-border);
+  background: var(--sd-surface2);
+  flex-shrink: 0;
+  transition: background 0.35s, border-color 0.35s;
+}
+
+.acb-input-wrap {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  background: var(--sd-bg);
+  border: 1px solid var(--sd-border);
+  border-radius: 12px;
+  padding: 8px 8px 8px 13px;
+  transition: all 0.2s;
+}
+
+.acb-input-wrap:focus-within {
+  border-color: var(--sd-border2);
+  box-shadow: 0 0 0 3px var(--sd-accent-glow);
+}
+
+.acb-textarea {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  color: var(--sd-text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  max-height: 120px;
+  overflow-y: auto;
+}
+.acb-textarea::placeholder { color: var(--sd-text3); }
+.acb-textarea:disabled { opacity: 0.6; }
+
+.acb-send-btn {
+  width: 34px; height: 34px;
+  border-radius: 9px; border: none;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  color: #fff; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; flex-shrink: 0;
+  transition: all 0.2s;
+}
+.acb-send-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1d4ed8, #4338ca);
+  transform: scale(1.05);
+}
+.acb-send-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.acb-spin { animation: acbSpin 0.8s linear infinite; }
+@keyframes acbSpin { to { transform: rotate(360deg); } }
+
+.acb-hint {
+  font-size: 10px;
+  color: var(--sd-text3);
+  text-align: center;
+  margin: 6px 0 0;
+}
+
+/* ══════════════════════════════════════════════════════
+   FLOATING BUTTON (trigger)
+   Add this to StudentDashboard.jsx nav-right area
+══════════════════════════════════════════════════════ */
+.acb-fab {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  z-index: 199;
+
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+
+  background: linear-gradient(135deg, #6366f1, #a78bfa);
+  color: #fff;
+  font-size: 20px;
+
+  display: flex; align-items: center; justify-content: center;
+
+  box-shadow: 0 6px 20px rgba(99,102,241,0.40);
+  transition: all 0.2s;
+  animation: acbFabIn 0.3s ease both;
+}
+.acb-fab:hover { transform: scale(1.08); box-shadow: 0 8px 26px rgba(99,102,241,0.50); }
+.acb-fab--open { background: linear-gradient(135deg, #dc2626, #ef4444); }
+
+@keyframes acbFabIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ── Notification dot on FAB ── */
+.acb-fab-dot {
+  position: absolute; top: 2px; right: 2px;
+  width: 12px; height: 12px;
+  border-radius: 50%; background: #22c55e;
+  border: 2px solid var(--sd-bg);
+}
+
+/* ══════════════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .acb-panel {
+    bottom: 0; right: 0;
+    width: 100vw; max-width: 100vw;
+    height: 85vh; max-height: 85vh;
+    border-radius: 18px 18px 0 0;
+    border-left: none; border-right: none; border-bottom: none;
+  }
+  .acb-fab { bottom: 16px; right: 16px; }
+}

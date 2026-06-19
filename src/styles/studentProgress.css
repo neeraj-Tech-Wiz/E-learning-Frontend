@@ -1,0 +1,184 @@
+/* =====================================================================
+   EduVerse — StudentProgress.css
+   Matches the StudentDashboard redesign aesthetic
+   ===================================================================== */
+
+/* ── WRAPPER: two equal columns ── */
+.sp-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* ── CARD ── */
+.sp-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius, 14px);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.25s, transform 0.25s;
+  animation: spFadeUp 0.4s 0.25s ease both;
+}
+
+.sp-card:hover {
+  border-color: var(--border2);
+  transform: translateY(-2px);
+}
+
+/* Subtle ambient glow behind the card */
+.sp-card-bg {
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.sp-card-bg--blue   { background: radial-gradient(circle, rgba(59,130,246,0.14), transparent 70%); }
+.sp-card-bg--purple { background: radial-gradient(circle, rgba(167,139,250,0.14), transparent 70%); }
+
+/* ── TOP ROW: icon + label + percentage ── */
+.sp-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.sp-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sp-icon svg { width: 18px; height: 18px; }
+
+.sp-icon--blue   { background: rgba(59,130,246,0.12); color: #60a5fa; }
+.sp-icon--purple { background: rgba(167,139,250,0.12); color: #c4b5fd; }
+
+.sp-meta {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.sp-label {
+  font-family: 'Sora', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.sp-pct {
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.sp-pct--blue   { color: #60a5fa; }
+.sp-pct--purple { color: #c4b5fd; }
+
+/* ── PROGRESS BAR ── */
+.sp-bar-track {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(99, 179, 255, 0.08);
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.sp-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+/* Animated shimmer on the fill */
+.sp-bar-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.25) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: spBarShine 2.4s ease infinite;
+  border-radius: 999px;
+}
+
+.sp-bar-fill--blue   { background: linear-gradient(90deg, #2563eb, #60a5fa); }
+.sp-bar-fill--purple { background: linear-gradient(90deg, #7c3aed, #a78bfa); }
+
+/* ── FOOTER: sub text + badge ── */
+.sp-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.sp-sub {
+  font-size: 12px;
+  color: var(--text3);
+  font-family: 'DM Sans', sans-serif;
+}
+
+.sp-badge {
+  font-size: 11px;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid;
+}
+
+.sp-badge--blue {
+  color: #93c5fd;
+  background: rgba(59,130,246,0.10);
+  border-color: rgba(59,130,246,0.25);
+}
+
+.sp-badge--purple {
+  color: #c4b5fd;
+  background: rgba(167,139,250,0.10);
+  border-color: rgba(167,139,250,0.25);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes spFadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spBarShine {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .sp-wrapper { grid-template-columns: 1fr; }
+}
