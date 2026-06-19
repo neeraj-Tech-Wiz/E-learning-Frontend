@@ -82,7 +82,7 @@ const AiChatbot = ({ profile, isOpen, onClose }) => {
       }
 
       const response = await fetch(
-        "https://unquerulous-chae-uncharitably.ngrok-free.dev/api/ai/chat",
+        "https://e-learning-backend-xr7q.onrender.com/api/ai/chat",
         {
           method: "POST",
           headers: {
