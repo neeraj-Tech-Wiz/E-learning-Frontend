@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // IMPORTANT: Use your specific IP address if testing across two laptops
 // Otherwise, keep 'http://localhost:8080/api'
-const BASE_URL = "https://unquerulous-chae-uncharitably.ngrok-free.dev";
+const BASE_URL = "https://e-learning-backend-xr7q.onrender.com";
 
 const api = axios.create({
   baseURL: BASE_URL,
