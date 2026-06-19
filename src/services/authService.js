@@ -2,7 +2,7 @@
 
 // The full Ngrok URL must be correct here
 // const API_URL = 'https://unquerulous-chae-uncharitably.ngrok-free.app/api/auth/'; 
-const API_URL = 'https://unquerulous-chae-uncharitably.ngrok-free.dev/api/auth/'; 
+const API_URL = 'https://e-learning-backend-xr7q.onrender.com/api/auth/'; 
 // Note: Axios is still imported and used for the secure 'api' instance elsewhere.
 
 const login = async (email, password) => {
