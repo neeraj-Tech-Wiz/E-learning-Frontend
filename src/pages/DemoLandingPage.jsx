@@ -196,7 +196,7 @@ const DemoLandingPage = () => {
         </p>
         <a
           className="dl-github-link"
-          href="https://github.com/your-repo"
+          href="https://github.com/neeraj-Tech-Wiz/E-learning-Frontend"
           target="_blank"
           rel="noreferrer"
         >
