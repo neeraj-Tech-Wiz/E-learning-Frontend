@@ -11,6 +11,7 @@ import {
   useLocation,
 
 } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
 
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
@@ -213,6 +214,7 @@ function App() {
           },
         }}
       />
+      <Analytics />
     </BrowserRouter>
   );
 }
