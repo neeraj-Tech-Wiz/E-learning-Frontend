@@ -8,6 +8,8 @@ import {
   Route,
   Navigate,
   Outlet,
+  useLocation,
+
 } from "react-router-dom";
 
 import { AuthProvider, useAuth } from "./context/AuthContext";
@@ -60,10 +62,19 @@ const AuthLoadingScreen = () => (
 ====================================== */
 const ProtectedRoute = ({ allowedRoles }) => {
   const { user, loading } = useAuth();
+  const location = useLocation();
 
   if (loading) return <AuthLoadingScreen />;
 
-  if (!user) return <Navigate to="/demo" replace />;
+  if (!user) {
+    return (
+      <Navigate
+        to="/login"
+        state={{ from: location }}
+        replace
+      />
+    );
+  }
 
   if (allowedRoles && !allowedRoles.includes(user.role)) {
     return <Navigate to="/" replace />;

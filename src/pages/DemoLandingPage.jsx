@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/demo-landing.css";
+import { Link } from "react-router-dom";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -117,6 +118,13 @@ const DemoLandingPage = () => {
           A full-stack e-learning platform with AI-powered features.<br />
           Click any role below to instantly explore the platform.
         </p>
+
+        <button
+          onClick={() => navigate("/login")}
+          className="login-btn"
+        >
+          Login
+        </button>
 
         {/* Tech stack pills */}
         <div className="dl-tech-row">
