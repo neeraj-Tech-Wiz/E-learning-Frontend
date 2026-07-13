@@ -6,6 +6,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
 import "../../styles/ai-chatbot.css";
+import { BASE_URL } from "../../services/api";
 
 /* ══════════════════════════════════════════════════
    MAIN COMPONENT
@@ -82,7 +83,7 @@ const AiChatbot = ({ profile, isOpen, onClose }) => {
       }
 
       const response = await fetch(
-        "https://e-learning-backend-xr7q.onrender.com/api/ai/chat",
+        `${BASE_URL}/api/ai/chat`,
         {
           method: "POST",
           headers: {

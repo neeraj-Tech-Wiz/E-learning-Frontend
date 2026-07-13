@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/demo-landing.css";
 import { Link } from "react-router-dom";
+import { BASE_URL } from "../services/api";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+const BACKEND_URL = BASE_URL;
 
 /* Pre-seeded demo credentials — these accounts exist in your DB */
 const DEMO_ACCOUNTS = [

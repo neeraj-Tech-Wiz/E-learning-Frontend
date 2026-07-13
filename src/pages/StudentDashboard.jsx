@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useStudentDashboard } from "../context/StudentDashboardContext";
 import { useTheme } from "../context/ThemeContext";
+import { BASE_URL } from "../services/api";
 
 import EditStudentProfileModal from "../components/student/modals/EditStudentProfileModal";
 import StudentAvatar from "../components/student/header/StudentAvatar";
@@ -29,7 +30,7 @@ import "../styles/student-dashboard.css";
 /* ======================================================
    CONSTANTS
 ====================================================== */
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+const BACKEND_URL = BASE_URL;
 
 /* ======================================================
    HELPERS
@@ -186,45 +187,80 @@ const StudentDashboard = () => {
 
   /* ── open content + auto-mark complete ── */
   const handleOpenContent = async (item) => {
-    const token = localStorage.getItem("user_token");
-    if (!token) { toast.error("Not authenticated"); return; }
-    if (!item?.id || !item?.type) { toast.error("Invalid content"); return; }
+  const token = localStorage.getItem("user_token");
 
-    try {
-      setLoadingContentId(item.id);
+  if (!token) {
+    toast.error("Not authenticated");
+    return;
+  }
 
-      const url =
-        item.type === "LECTURE"
-          ? `${BACKEND_URL}/api/lectures/secure/stream/${item.id}`
-          : `${BACKEND_URL}/api/materials/secure/download/${item.id}`;
+  if (!item?.id || !item?.type) {
+    toast.error("Invalid content");
+    return;
+  }
 
-      const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
-      if (!res.ok) { toast.error(`Access failed (${res.status})`); return; }
+  try {
+    setLoadingContentId(item.id);
 
-      const blob    = await res.blob();
-      const blobUrl = URL.createObjectURL(blob);
+    const url =
+      item.type === "LECTURE"
+        ? `${BACKEND_URL}/api/lectures/secure/stream/${item.id}`
+        : `${BACKEND_URL}/api/materials/secure/download/${item.id}`;
 
-      if (item.type === "LECTURE") {
-        window.open(blobUrl, "_blank");
-      } else {
-        const a = document.createElement("a");
-        a.href = blobUrl;
-        a.download = item.title || "material";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(blobUrl);
-      }
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-      if (!item.isCompleted) await markContentComplete(item.id, item.type);
-    } catch (err) {
-      console.error(err);
-      toast.error("Error accessing content");
-    } finally {
-      setLoadingContentId(null);
+    if (!res.ok) {
+      toast.error(`Access failed (${res.status})`);
+      return;
     }
 
-  };
+    // ==========================
+    // VIDEO
+    // ==========================
+    if (item.type === "LECTURE") {
+      const data = await res.json();
+
+      window.open(data.url, "_blank");
+
+      if (!item.isCompleted) {
+        await markContentComplete(item.id, item.type);
+      }
+
+      return;
+    }
+
+    // ==========================
+    // PDF
+    // ==========================
+    const blob = await res.blob();
+
+    const blobUrl = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = blobUrl;
+    a.download = `${item.title || "material"}.${item.fileType || "pdf"}`;
+
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    URL.revokeObjectURL(blobUrl);
+
+    if (!item.isCompleted) {
+      await markContentComplete(item.id, item.type);
+    }
+
+  } catch (err) {
+    console.error(err);
+    toast.error("Error accessing content");
+  } finally {
+    setLoadingContentId(null);
+  }
+};
 
   /* ======================================================
      RENDER

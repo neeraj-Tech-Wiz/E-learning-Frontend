@@ -3,8 +3,9 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { FaSearch, FaExclamationTriangle, FaCheckCircle, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import "../../styles/view-attendance.css";
+import { BASE_URL } from "../../services/api";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+const BACKEND_URL = BASE_URL;
 
 const MONTH_NAMES = [
   "January","February","March","April","May","June",

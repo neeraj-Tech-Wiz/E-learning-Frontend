@@ -1,8 +1,12 @@
 import axios from 'axios'
 
-// IMPORTANT: Use your specific IP address if testing across two laptops
-// Otherwise, keep 'http://localhost:8080/api'
-const BASE_URL = "https://e-learning-backend-xr7q.onrender.com";
+
+const DEFAULT_BACKEND_URL = "https://e-learning-backend-xr7q.onrender.com";
+const LOCAL_BACKEND_URL = "http://localhost:8080";
+const USE_LOCAL_BACKEND = import.meta.env.VITE_USE_LOCAL_BACKEND === "true";
+const BASE_URL = USE_LOCAL_BACKEND
+  ? LOCAL_BACKEND_URL
+  : import.meta.env.VITE_BACKEND_URL || DEFAULT_BACKEND_URL;
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -13,7 +17,7 @@ api.interceptors.request.use(
   config => {
     const token = localStorage.getItem('user_token')
 
-    // 🔑 Attaches the JWT token to the Authorization header
+    // Attaches the JWT token to the Authorization header
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`
     }
@@ -28,7 +32,6 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   response => response,
   error => {
-    // You can add logic here to automatically log out the user if the token is expired (401)
     if (
       error.response &&
       (error.response.status === 401 || error.response.status === 403)

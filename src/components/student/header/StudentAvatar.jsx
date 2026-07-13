@@ -1,8 +1,7 @@
 import React, { useRef, useState } from "react";
 import api from "../../../services/api";
+import { BASE_URL } from "../../../services/api";
 import { toast } from "react-hot-toast";
-
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const StudentAvatar = ({ name, photo, onUpdated }) => {
   const fileRef = useRef(null);
@@ -11,7 +10,7 @@ const StudentAvatar = ({ name, photo, onUpdated }) => {
 
   const imageUrl =
     photo && !photo.startsWith("http")
-      ? `${BACKEND_URL}/uploads/profile/${photo}`
+      ? `${BASE_URL}/uploads/profile/${photo}`
       : photo;
 
   const letter = name?.trim()?.charAt(0)?.toUpperCase() || "S";
