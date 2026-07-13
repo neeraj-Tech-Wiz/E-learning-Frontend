@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import teacherService from '../services/teacherService';
-import '../../styles/UploadForm.css';
+import '../styles/UploadForm.css';
 
 // Props: fileType ("video" or "material")
 const UploadForm = ({ fileType }) => {
