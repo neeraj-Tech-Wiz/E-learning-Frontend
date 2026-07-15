@@ -206,15 +206,33 @@ function App() {
         </ThemeProvider>
       </AuthProvider>
 
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          style: {
-            background: "var(--card)",
-            color: "var(--fg)",
-          },
-        }}
-      />
+     <Toaster
+    position="top-right"
+    toastOptions={{
+      duration: 4000,
+      style: {
+        background: 'var(--sd-bg-elevated, #1e293b)', // fallback if var not defined
+        color: 'var(--sd-text, #f1f5f9)',
+        border: '1px solid var(--sd-border, #334155)',
+        borderRadius: '10px',
+        padding: '12px 16px',
+        boxShadow: '0 4px 16px rgba(0,0,0,0.25)',
+        fontSize: '14px',
+      },
+      success: {
+        iconTheme: {
+          primary: '#7c3aed', // matches your indigo-purple palette
+          secondary: '#fff',
+        },
+      },
+      error: {
+        iconTheme: {
+          primary: '#dc2626',
+          secondary: '#fff',
+        },
+      },
+    }}
+  />
       <Analytics />
       <SpeedInsights />
     </BrowserRouter>
